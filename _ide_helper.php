@@ -28952,6 +28952,24 @@ namespace Filament\Resources\Pages {
      */
     class Page extends \Filament\Pages\Page {
             }
+    /**
+     * @template TModel of Model = Model
+     * @property-read Schema $form
+     */
+    class CreateRecord extends \Filament\Resources\Pages\Page {
+            }
+    /**
+     * @template TModel of Model = Model
+     * @property-read Schema $form
+     */
+    class EditRecord extends \Filament\Resources\Pages\Page {
+            }
+    /**
+     * @template TModel of Model = Model
+     * @property-read Schema $form
+     */
+    class ViewRecord extends \Filament\Resources\Pages\Page {
+            }
     }
 
 namespace Filament\Pages {
@@ -28992,6 +29010,25 @@ namespace Filament\Auth\Pages {
      * @property-read Schema $form
      */
     class Register extends \Filament\Pages\SimplePage {
+            }
+    }
+
+namespace App\Filament\App\Resources\Books\Pages {
+    /**
+     */
+    class CreateBook extends \Filament\Resources\Pages\CreateRecord {
+            }
+    /**
+     */
+    class EditBook extends \Filament\Resources\Pages\EditRecord {
+            }
+    /**
+     */
+    class ListBooks extends \Filament\Resources\Pages\ListRecords {
+            }
+    /**
+     */
+    class ViewBook extends \Filament\Resources\Pages\ViewRecord {
             }
     }
 

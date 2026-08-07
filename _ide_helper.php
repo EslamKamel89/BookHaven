@@ -29013,6 +29013,21 @@ namespace Filament\Auth\Pages {
             }
     }
 
+namespace App\Filament\App\Resources\BookUsers\Pages {
+    /**
+     */
+    class CreateBookUser extends \Filament\Resources\Pages\CreateRecord {
+            }
+    /**
+     */
+    class EditBookUser extends \Filament\Resources\Pages\EditRecord {
+            }
+    /**
+     */
+    class ListBookUsers extends \Filament\Resources\Pages\ListRecords {
+            }
+    }
+
 namespace App\Filament\App\Resources\Books\Pages {
     /**
      */

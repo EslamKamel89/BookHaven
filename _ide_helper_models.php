@@ -13,12 +13,35 @@
 
 namespace App\Models{
 /**
+ * @property int $id
+ * @property string $title
+ * @property string $author
+ * @property string|null $image
+ * @property string|null $description
+ * @property \Carbon\CarbonImmutable|null $created_at
+ * @property \Carbon\CarbonImmutable|null $updated_at
  * @method static \Database\Factories\BookFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Book newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Book newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Book query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Book whereAuthor($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Book whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Book whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Book whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Book whereImage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Book whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Book whereUpdatedAt($value)
  */
 	class Book extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BookUser newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BookUser newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BookUser query()
+ */
+	class BookUser extends \Eloquent {}
 }
 
 namespace App\Models{

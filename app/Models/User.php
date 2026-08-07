@@ -9,6 +9,7 @@ use Filament\Panel;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
@@ -76,5 +77,14 @@ class User extends Authenticatable implements FilamentUser, PasskeyUser
         }
 
         return $this->isAdmin();
+    }
+
+    public function books(): BelongsToMany
+    {
+        return $this->belongsToMany(Book::class)
+            ->using(BookUser::class)
+            ->as('loan')
+            ->withPivot(['status', 'rating', 'review', 'requested_at', 'borrowed_at', 'return_requested_at', 'returned_at'])
+            ->withTimestamps();
     }
 }

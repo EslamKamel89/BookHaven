@@ -15,6 +15,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class BookResource extends Resource
 {
@@ -27,6 +28,12 @@ class BookResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return BookForm::configure($schema);
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        // dd(parent::getEloquentQuery()->with(['lastLoan'])->withAvg('loans', 'rating')->get());
+        return parent::getEloquentQuery()->with(['lastLoan'])->withAvg('loans', 'rating');
     }
 
     public static function infolist(Schema $schema): Schema

@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 #[Fillable(['title', 'author', 'image', 'description'])]
 class Book extends Model
@@ -21,5 +23,15 @@ class Book extends Model
             ->as('loan')
             ->withPivot(['status', 'rating', 'review', 'requested_at', 'borrowed_at', 'return_requested_at', 'returned_at'])
             ->withTimestamps();
+    }
+
+    public function loans(): HasMany
+    {
+        return $this->hasMany(BookUser::class);
+    }
+
+    public function lastLoan(): HasOne
+    {
+        return $this->hasOne(BookUser::class)->where('user_id', auth()->id())->latest();
     }
 }

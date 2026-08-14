@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 #[Table('book_user')]
-#[Fillable(['status', 'rating', 'review', 'requested_at', 'borrowed_at', 'return_requested_at', 'returned_at'])]
+#[Fillable(['user_id', 'book_id', 'status', 'rating', 'review', 'requested_at', 'borrowed_at', 'return_requested_at', 'returned_at'])]
 class BookUser extends Pivot
 {
     public $incrementing = true;

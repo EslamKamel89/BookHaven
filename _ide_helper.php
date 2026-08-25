@@ -29047,6 +29047,28 @@ namespace App\Filament\App\Resources\Books\Pages {
             }
     }
 
+namespace App\Filament\App\Widgets {
+    /**
+     */
+    class ProgressIndicator extends \Filament\Widgets\Widget {
+            }
+    /**
+     */
+    class ReadingStats extends \Filament\Widgets\StatsOverviewWidget {
+            }
+    }
+
+namespace Filament\Widgets {
+    /**
+     */
+    class Widget extends \Livewire\Component {
+            }
+    /**
+     */
+    class StatsOverviewWidget extends \Filament\Widgets\Widget {
+            }
+    }
+
 namespace Filament\Auth\Pages\PasswordReset {
     /**
      * @property-read Action $loginAction

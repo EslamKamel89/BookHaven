@@ -2,3 +2,19 @@
 
 @source '../../../app/Filament/**/*';
 @source '../../../resources/views/filament/**/*';
+
+.fi-ta-ctn {
+    @apply bg-transparent border-0 shadow-none;
+    box-shadow: None;
+}
+.fi-ta-search-field input {
+    @apply w-50;
+}
+
+.fi-ta-split {
+    @apply items-start;
+}
+
+.fi-ta-image img {
+    @apply rounded-md;
+}

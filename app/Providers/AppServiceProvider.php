@@ -6,6 +6,8 @@ use Carbon\CarbonImmutable;
 use Filament\Notifications\Livewire\Notifications;
 use Filament\Support\Enums\Alignment;
 use Filament\Support\Enums\VerticalAlignment;
+use Filament\Support\Facades\FilamentView;
+use Filament\View\PanelsRenderHook;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
@@ -29,6 +31,7 @@ class AppServiceProvider extends ServiceProvider
         $this->configureDefaults();
         Notifications::alignment(Alignment::Center);
         Notifications::verticalAlignment(VerticalAlignment::End);
+        FilamentView::registerRenderHook(PanelsRenderHook::AUTH_LOGIN_FORM_AFTER , fn()=>view('filament.hooks.login-info'));
     }
 
     /**

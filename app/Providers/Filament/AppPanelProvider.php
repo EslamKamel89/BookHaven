@@ -2,9 +2,17 @@
 
 namespace App\Providers\Filament;
 
+use App\Enums\Status;
+use App\Filament\App\Resources\Books\BookResource;
+use App\Filament\App\Resources\BookUsers\BookUserResource;
+use App\Models\BookUser;
+use Filament\Navigation\NavigationBuilder;
+use Filament\Navigation\NavigationGroup;
+use Filament\Navigation\NavigationItem;
 use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\Support\Colors\Color;
+use Filament\Support\Icons\Heroicon;
 
 class AppPanelProvider extends BasePanelProvider
 {
@@ -30,6 +38,41 @@ class AppPanelProvider extends BasePanelProvider
                 Dashboard::class,
             ])
             ->discoverWidgets(in: app_path('Filament/App/Widgets'), for: 'App\Filament\App\Widgets')
-            ->widgets([]);
+            ->widgets([])
+            ->navigation(function (NavigationBuilder $builder): NavigationBuilder {
+                return $builder->groups([
+                    NavigationGroup::make('')->items([
+                        NavigationItem::make('Dashboard')
+                            ->icon(Heroicon::OutlinedHome)
+                            ->isActiveWhen(fn (): bool => request()->routeIs('filament.app.pages.dashboard'))
+                            ->url(fn (): string => Dashboard::getUrl()),
+                        ...BookResource::getNavigationItems(),
+                    ]),
+                    NavigationGroup::make('My Shelf')->items([
+                        NavigationItem::make('All')
+                            ->badge(BookUser::where('user_id', auth()->id())->count())
+                            ->isActiveWhen(fn (): bool => request()->routeIs('filament.app.resources.my-books.index') && request()->input('tab') === null)
+                            ->icon(Heroicon::BarsArrowUp)
+                            ->url(BookUserResource::getUrl()),
+
+                        NavigationItem::make('Requested Books')
+                            ->badge(BookUser::where('user_id', auth()->id())->where('status', Status::Requested)->count())
+                            ->isActiveWhen(fn (): bool => request()->routeIs('filament.app.resources.my-books.index') && request()->input('tab') === Status::Requested->getLabel())
+                            ->icon(Status::Requested->getIcon())
+                            ->url(BookUserResource::getUrl().'?tab='.Status::Requested->getLabel()),
+                        NavigationItem::make('Currently Reading')
+                            ->badge(BookUser::where('user_id', auth()->id())->where('status', Status::Borrowed)->count())
+                            ->isActiveWhen(fn (): bool => request()->routeIs('filament.app.resources.my-books.index') && request()->input('tab') === Status::Borrowed->getLabel())
+                            ->icon(Status::Borrowed->getIcon())
+                            ->url(BookUserResource::getUrl().'?tab='.Status::Borrowed->getLabel()),
+                        NavigationItem::make('Past Reads')
+                            ->badge(BookUser::where('user_id', auth()->id())->where('status', Status::Returned)->count())
+                            ->isActiveWhen(fn (): bool => request()->routeIs('filament.app.resources.my-books.index') && request()->input('tab') === Status::Returned->getLabel())
+                            ->icon(Status::Returned->getIcon())
+                            ->url(BookUserResource::getUrl().'?tab='.Status::Returned->getLabel()),
+                    ]),
+
+                ]);
+            });
     }
 }

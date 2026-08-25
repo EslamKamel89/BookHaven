@@ -70,7 +70,12 @@ class BooksTable
                             'status' => Status::Requested,
                             'requested_at' => now(),
                         ]);
-                    })->visible(function (Book $record) {
+                    })
+                    ->after(function ($livewire) {
+                        $livewire->dispatch('refresh-topbar');
+                        $livewire->dispatch('refresh-sidebar');
+                    })
+                    ->visible(function (Book $record) {
                         // dump($record)->lastLoan
                         if (! $record->lastLoan) {
                             return true;

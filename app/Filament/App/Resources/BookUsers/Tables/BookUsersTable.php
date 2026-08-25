@@ -80,7 +80,11 @@ class BookUsersTable
                     ->modalCancelActionLabel('No')
                     ->visible(fn (BookUser $record) => $record->status === Status::Requested)
                     ->successNotificationTitle('Your request is canceled')
-                    ->failureNotificationTitle('Failed to cancel request. Try again later'),
+                    ->failureNotificationTitle('Failed to cancel request. Try again later')
+                    ->after(function ($livewire) {
+                        $livewire->dispatch('refresh-topbar');
+                        $livewire->dispatch('refresh-sidebar');
+                    }),
                 Action::make('return')
                     ->label('Return')
                     ->icon(Heroicon::OutlinedBookOpen)

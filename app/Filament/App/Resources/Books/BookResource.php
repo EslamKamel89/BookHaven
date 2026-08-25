@@ -25,8 +25,17 @@ class BookResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'title';
 
+    protected static ?string $modelLabel = 'Catalog';
+
+    protected static ?string $pluralModelLabel = 'Catalog';
+
+    protected static ?string $slug = 'catalog';
+
+    protected static ?int $navigationSort = 1;
+
     public static function form(Schema $schema): Schema
     {
+
         return BookForm::configure($schema);
     }
 

@@ -28,15 +28,15 @@ class ListBookUsers extends ListRecords
             'All' => Tab::make()
                 ->icon(Heroicon::BarsArrowUp)
                 ->badge(BookUser::where('user_id', auth()->id())->count()),
-            Status::Requested->getLabel() => Tab::make()
+            Status::Requested->getLabel() => Tab::make('Requested Books')
                 ->icon(Status::Requested->getIcon())
                 ->badge(BookUser::where('user_id', auth()->id())->where('status', Status::Requested)->count())
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('status', Status::Requested)),
-            Status::Borrowed->getLabel() => Tab::make()
+            Status::Borrowed->getLabel() => Tab::make('Currently Reading')
                 ->badge(BookUser::where('user_id', auth()->id())->where('status', Status::Borrowed)->count())
                 ->icon(Status::Borrowed->getIcon())
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('status', Status::Borrowed)),
-            Status::Returned->getLabel() => Tab::make()
+            Status::Returned->getLabel() => Tab::make('Past Reads')
                 ->badge(BookUser::where('user_id', auth()->id())->where('status', Status::Returned)->count())
                 ->icon(Status::Returned->getIcon())
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('status', Status::Returned)),

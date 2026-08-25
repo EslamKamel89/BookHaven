@@ -5,6 +5,7 @@ namespace App\Filament\App\Resources\BookUsers\Tables;
 use App\Enums\Status;
 use App\Filament\App\Resources\Books\BookResource;
 use App\Filament\App\Resources\BookUsers\Pages\ListBookUsers;
+use App\Filament\Forms\Components\Rating;
 use App\Models\BookUser;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
@@ -12,6 +13,7 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
+use Filament\Notifications\Notification;
 use Filament\Support\Enums\FontWeight;
 use Filament\Support\Enums\IconPosition;
 use Filament\Support\Enums\TextSize;
@@ -76,7 +78,9 @@ class BookUsersTable
                     ->modalDescription('Are you sure you want to cancel your request for this book?')
                     ->modalSubmitActionLabel('Yes')
                     ->modalCancelActionLabel('No')
-                    ->visible(fn (BookUser $record) => $record->status === Status::Requested),
+                    ->visible(fn (BookUser $record) => $record->status === Status::Requested)
+                    ->successNotificationTitle('Your request is canceled')
+                    ->failureNotificationTitle('Failed to cancel request. Try again later'),
                 Action::make('return')
                     ->label('Return')
                     ->icon(Heroicon::OutlinedBookOpen)
@@ -88,15 +92,18 @@ class BookUsersTable
                     ->modalHeading('Did you like the book')
                     ->modalDescription('Feedback help use improve recommendations')
                     ->schema([
-                        Select::make('rating')
-                            ->label('Rate the book')
-                            ->options([
-                                5 => '5 - Excellent',
-                                4 => '4 - Very Good',
-                                3 => '3 - Good',
-                                2 => '2 - Fair',
-                                1 => '1 - Poor',
-                            ])->required(),
+                        Rating::make('rating')
+                            ->required()
+                            ->default(1),
+                        // Select::make('rating')
+                        //     ->label('Rate the book')
+                        //     ->options([
+                        //         5 => '5 - Excellent',
+                        //         4 => '4 - Very Good',
+                        //         3 => '3 - Good',
+                        //         2 => '2 - Fair',
+                        //         1 => '1 - Poor',
+                        //     ])->required(),
                         RichEditor::make('review')
                             ->label('Write a review'),
                     ])->action(function (BookUser $record, array $data) {
@@ -105,7 +112,13 @@ class BookUsersTable
                             'review' => $data['review'],
                             'rating' => $data['rating'],
                         ]);
-                    }),
+                    })
+                    ->successNotification(
+                        Notification::make('return_requested')
+                            ->title('Request is placed successfully')
+                            ->body('Thank you for your feedback, You will be notified when your request is being processed')
+                    )
+                    ->failureNotificationTitle('Failed to Request Return, Try again later.'),
             ])
             ->toolbarActions([
                 // BulkActionGroup::make([

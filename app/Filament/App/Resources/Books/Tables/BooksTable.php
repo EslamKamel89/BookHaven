@@ -3,10 +3,12 @@
 namespace App\Filament\App\Resources\Books\Tables;
 
 use App\Enums\Status;
+use App\Filament\App\Resources\BookUsers\BookUserResource;
 use App\Filament\Tables\Columns\RatingColumn;
 use App\Models\Book;
 use App\Models\BookUser;
 use Filament\Actions\Action;
+use Filament\Notifications\Notification;
 use Filament\Support\Enums\FontWeight;
 use Filament\Support\Enums\IconPosition;
 use Filament\Support\Enums\TextSize;
@@ -75,7 +77,18 @@ class BooksTable
                         }
 
                         return ! in_array($record->lastLoan?->status, [Status::Borrowed, Status::Requested]);
-                    }),
+                    })->successNotification(
+                        Notification::make('book_request')->title('Book Requested')
+                            ->actions([
+                                Action::make('view_requests')
+                                    ->label('View all requests')
+                                    ->button()
+                                    ->outlined()
+                                    ->size('xs')
+                                    ->url(BookUserResource::getIndexUrl()),
+                            ])
+                    )
+                    ->failureNotificationTitle("Sorry your request can't be processed, try again later. "),
             ])
             ->searchPlaceholder('Search by title or author')
             ->paginated([12]);

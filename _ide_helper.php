@@ -29235,6 +29235,13 @@ namespace Illuminate\View {
             }
     }
 
+namespace Filament\Notifications\Livewire {
+    /**
+     */
+    class Notifications extends \Livewire\Component {
+            }
+    }
+
 
 namespace  {
     class App extends \Illuminate\Support\Facades\App {}
